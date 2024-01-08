@@ -1,0 +1,29 @@
+from pydantic import BaseModel
+from typing import Optional
+#se crea la ruta raiz http://127.0.0.1:8000/
+#@ decorador lo que hace es modificar la funcion que le sigue, 
+# pero en fastapi se usa para registrar la funcion
+#cuando alguien llama a la ruta / mediante la funcion get ejecuta la funcion index
+from routes import router
+app.include_router(router)
+@router.get("/")
+def main():
+    # se crea un diccionario con un mensaje, que se va a convertir en un json
+    return {"message": "Hello, World!"}
+
+@app.get("/libros/{id}")
+def mostrar(id: int):
+    return {"data_var":id}
+
+@app.post("/libros/")
+def insertar(data: Libro):
+    return {"message": f"data insertada correctamente {data.titulo}"}
+
+#Nos garantiza que los tipos de datos que se almacenen 
+# en los campos de la clase sean los correctos
+
+#class Libro(BaseModel):
+ #   titulo: str
+  #  autor: str
+   # paginas: int
+    #editorial: Optional[str]
