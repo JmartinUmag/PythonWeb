@@ -31,16 +31,16 @@ class Col(Base):
     def __repr__(self):
         return f"<index='{self.index}')>"
 
-class Statistic(Base):
-    __tablename__ = 'statistics'
+class Stat(Base):
+    __tablename__ = 'statistics' 
     id = Column(Integer, primary_key=True)
     min_abs = Column(Float, nullable=False)
     median_abs = Column(Float, nullable=False)
     max_abs = Column(Float, nullable=False)
     mean = Column(Float, nullable=True)
     mode = Column(Float, nullable=True)
-
-    images = relationship('Image', back_populates='stats')
+    
+    column_id = Column(Integer, ForeignKey('columns.id'), primary_key=True)
     columns = relationship('Col', back_populates='stats')
 
     def __repr__(self):
@@ -52,7 +52,9 @@ class File(Base):
     name_cols = Column(String(64), nullable=False)
 
     data_id = Column(Integer, ForeignKey('dataset.id'), primary_key=True)
+    data = relationship('Data', back_populates='files')
     column_id = Column(Integer, ForeignKey('columns.id'), primary_key=True)
+    columns = relationship('Col', back_populates='files')
 
     def __repr__(self):
         return f"<File(name='{self.name_cols}')>"
@@ -62,6 +64,7 @@ class Image(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(64), nullable=False)
 
+    data_id = Column(Integer, ForeignKey('dataset.id'), primary_key=True)
     dataset = relationship('Data', back_populates='images')
 
     def __repr__(self):
