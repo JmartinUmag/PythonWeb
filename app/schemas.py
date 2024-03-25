@@ -4,10 +4,13 @@ from datetime import datetime
 
 
 class User(BaseModel): #Esquema
-    id: int
-    nombre: str
-    apellido: str
-    telefono: int
+    username: str
+    password: str
+    name: str
+    surname: str
+    email: str
+    created_at: datetime
+    state: bool
 
 class UserId(BaseModel):
     id: int

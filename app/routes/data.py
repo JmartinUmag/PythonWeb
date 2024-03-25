@@ -1,28 +1,30 @@
 from fastapi import APIRouter, Depends
-from app.schemas import User, UserId
+from app.schemas import Data
 from app.db.database import get_db
 from sqlalchemy.orm import Session
 from app.db import models
-
 #se hace referencia desde main a esta parte
 router = APIRouter(
-    prefix="/user",
-    tags=["Users"]
+    prefix="/data",
+    tags=["Data"]
 )
+
+datos = []
 
 @router.get('/')
 def index():
     return {"message": "Hola"}
 
 @router.get('/')
-def obtener_usuarios(db: Session = Depends(get_db)):
-    us= db.query(models.User).all()
-    print(us)
-    return us
-
+def obtener_datos(db: Session = Depends(get_db)):
+    data = db.query(models.Data).all()
+    print(data)
+    return datos
+#Se importa la sesion, se crea una variable db que recibe la sesion de la base de datos
+#hay un objeto de tpo de session que depende de lo que devuelva get_db
 '''
 @router.post('/')
-def crear_usuario(user: User): #variable user recibe el modelo usado
+def crear_usuario(user: Data): #variable user recibe el modelo usado
     #print(user)
     #print(user.id)
     usuario = user.dict()

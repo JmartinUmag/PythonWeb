@@ -1,12 +1,15 @@
-from app.db.models import Base
-from sqlalchemy import Column, Integer, String, Boolean, DateTime
+from app.db.database import Base
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float
 from datetime import datetime
+from sqlalchemy.schema import ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
 class Data(Base):
     __tablename__ = 'dataset'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(DateTime, nullable=False)
     time = Column(String(12), nullable=True)
     site = Column(String(32), nullable=False)
@@ -19,7 +22,7 @@ class Data(Base):
 
 class Col(Base):
     __tablename__ = 'columns'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     min = Column(Float, nullable=False)
     median = Column(Float, nullable=False)
     max = Column(Float, nullable=False)
@@ -33,7 +36,7 @@ class Col(Base):
 
 class Stat(Base):
     __tablename__ = 'statistics' 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     min_abs = Column(Float, nullable=False)
     median_abs = Column(Float, nullable=False)
     max_abs = Column(Float, nullable=False)
@@ -48,7 +51,7 @@ class Stat(Base):
 
 class File(Base):
     __tablename__ = 'files'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name_cols = Column(String(64), nullable=False)
 
     data_id = Column(Integer, ForeignKey('dataset.id'), primary_key=True)
@@ -61,7 +64,7 @@ class File(Base):
 
 class Image(Base):
     __tablename__ = 'images'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(64), nullable=False)
 
     data_id = Column(Integer, ForeignKey('dataset.id'), primary_key=True)
@@ -69,16 +72,14 @@ class Image(Base):
 
     def __repr__(self):
         return f"<Image(name='{self.name}')>"
-'''
+
 class User(Base):
-    
     __tablename__ = "user"
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    username = Column(String, unique=True)
+    password = Column(String)
     name = Column(String)
     surname = Column(String)
-    email = Column(Integer)
+    email = Column(String, unique=True)
     created_at = Column(DateTime, default=datetime.now())
-    state = Column(Boolean) #Estado del usuario activo o inactivo
-
-class UserId
-'''
+    state = Column(Boolean, default=False) #Estado del usuario activo o inactivo

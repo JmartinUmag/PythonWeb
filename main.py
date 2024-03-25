@@ -5,6 +5,7 @@ from app.routes import user
 
 def create_tables():
     Base.metadata.create_all(bind=engine) #para crear las tablas en la base de datos
+    #el engine es el que se encarga de la conexion, se define en database.py
 
 create_tables()
 
