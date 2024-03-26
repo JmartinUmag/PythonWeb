@@ -3,14 +3,13 @@ from typing import Optional
 from datetime import datetime
 
 
-class User(BaseModel): #Esquema
+class User(BaseModel): #Esquema que le llega al endpoint
     username: str
     password: str
     name: str
     surname: str
     email: str
-    created_at: datetime
-    state: bool
+    created_at: datetime = datetime.now()
 
 class UserId(BaseModel):
     id: int

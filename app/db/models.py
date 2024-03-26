@@ -15,7 +15,8 @@ class Data(Base):
     site = Column(String(32), nullable=False)
 
     images = relationship('Image', back_populates='dataset')
-    columns = relationship('Col', secondary='files', back_populates='data')
+
+    files= relationship('File', back_populates='data')
 
     def __repr__(self):
         return f"<Data(name='{self.site}', date='{self.date}', time='{self.time}')>"
@@ -28,8 +29,9 @@ class Col(Base):
     max = Column(Float, nullable=False)
     index = Column(Integer, nullable=False)
 
-    dataset = relationship('Data', secondary='files', back_populates='columns')
-    stats = relationship('Statistic', back_populates='columns')
+    files= relationship('File', back_populates='columns')
+
+    stats = relationship('Stat', back_populates='columns')
 
     def __repr__(self):
         return f"<index='{self.index}')>"

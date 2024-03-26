@@ -14,22 +14,28 @@ router = APIRouter(
 def index():
     return {"message": "Hola"}
 
-@router.get('/')
+@router.get('/obtener_usuarios')
 def obtener_usuarios(db: Session = Depends(get_db)):
     us= db.query(models.User).all()
     print(us)
     return us
 
-'''
-@router.post('/')
-def crear_usuario(user: User): #variable user recibe el modelo usado
-    #print(user)
-    #print(user.id)
-    usuario = user.dict()
-    usuarios.append(usuario)
+@router.post('/crear_usuarios')
+def crear_usuarios(db: Session = Depends(get_db)):
+    usuario = User.model_dump()
+    nuevo_usuario = models.User(
+        username= usuario["username"],
+        password= usuario["password"],
+        name= usuario["name"],
+        surname= usuario["surname"],
+        email= usuario["email"]
+    )
+    db.add(nuevo_usuario)
+    db.commit()
+    db.refresh(nuevo_usuario)
     print (usuario)
-    return "Usuario creado exitosamente"
-
+    return ("Usuario creado exitosamente")
+'''
 @router.post('/{user_id}') #para probar se puede usar get
 def obtener_usuario(user_id: int):
     for user in usuarios:
