@@ -3,10 +3,8 @@ from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float
 from datetime import datetime
 from sqlalchemy.schema import ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
-
+'''
 class Data(Base):
     __tablename__ = 'dataset'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -14,8 +12,10 @@ class Data(Base):
     time = Column(String(12), nullable=True)
     site = Column(String(32), nullable=False)
 
-    images = relationship('Image', back_populates='dataset')
+    user_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
 
+    user = relationship('User', back_populates='data')
+    images = relationship('Image', back_populates='dataset')
     files= relationship('File', back_populates='data')
 
     def __repr__(self):
@@ -49,7 +49,7 @@ class Stat(Base):
     columns = relationship('Col', back_populates='stats')
 
     def __repr__(self):
-        return f"<Statistic(min_abs='{self.min_abs}', median_abs='{self.median_abs}', max_abs='{self.max_abs}', mean='{self.mean}', mode='{self.mode}')>"
+        return f"<Stat(min_abs='{self.min_abs}', median_abs='{self.median_abs}', max_abs='{self.max_abs}', mean='{self.mean}', mode='{self.mode}')>"
 
 class File(Base):
     __tablename__ = 'files'
@@ -74,7 +74,7 @@ class Image(Base):
 
     def __repr__(self):
         return f"<Image(name='{self.name}')>"
-
+'''
 class User(Base):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -85,3 +85,8 @@ class User(Base):
     email = Column(String, unique=True)
     created_at = Column(DateTime, default=datetime.now())
     state = Column(Boolean, default=False) #Estado del usuario activo o inactivo
+    #buscar que es Mapped column
+    data = relationship('Data', back_populates='user')
+
+    def __repr__(self):
+        return f"<User(username='{self.username}')>"

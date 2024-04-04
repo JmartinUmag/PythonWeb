@@ -2,24 +2,12 @@ from pydantic import BaseModel #modelo con el cual se reciben los datos
 from typing import Optional
 from datetime import datetime
 
-
-class User(BaseModel): #Esquema que le llega al endpoint
-    username: str
-    password: str
-    name: str
-    surname: str
-    email: str
-    created_at: datetime = datetime.now()
-
-class UserId(BaseModel):
-    id: int
-
-
 class Data(BaseModel):
     id: int
     date: datetime
     time: str
     site: str
+    user_id: int
 
 class Col(BaseModel):
     id: int
@@ -44,4 +32,13 @@ class Image(BaseModel):
     id: int
     name: str
 
+class User(BaseModel): #Esquema que le llega al endpoint
+    username: str
+    password: str
+    name: str
+    surname: str
+    email: str
+    created_at: datetime = datetime.now()
 
+class UserId(BaseModel):
+    id: int
